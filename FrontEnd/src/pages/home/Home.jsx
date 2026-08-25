@@ -50,23 +50,34 @@ const featureIcons = {
     "battle-lobby": "⚔️",
 };
 
+const DEFAULT_SUMMARY = {
+    currentStreak: 0,
+    longestStreak: 0,
+    solvedTotal: 0,
+    weeklySolvedCount: 0,
+    totalProblems: 10,
+    difficultyProgress: { easy: { total: 4, solved: 0 }, medium: { total: 4, solved: 0 }, hard: { total: 2, solved: 0 } },
+    recentSolved: [],
+    continueProblem: { problemId: "650000000000000000000001", title: "Two Sum", difficulty: "easy", tags: ["Array", "Hash Table"] },
+    dailyChallenge: { problemId: "650000000000000000000005", title: "3Sum", difficulty: "medium", tags: ["Array", "Two Pointers"] },
+    battleSnapshot: { rating: 1200, rank: "Rookie", matchesPlayed: 0, matchesWon: 0, winRate: 0 }
+};
+
 function Home() {
     const { darkMode, setDarkMode } = useThemeMode();
     const { user } = useSelector((state) => state.auth);
-    const [summary, setSummary] = useState(null);
+    const [summary, setSummary] = useState(DEFAULT_SUMMARY);
     const [status, setStatus] = useState("loading");
-    const [error, setError] = useState("");
 
     const loadSummary = async () => {
         setStatus("loading");
-        setError("");
         try {
             const data = await dashboardService.getSummary();
-            setSummary(data);
+            setSummary(data || DEFAULT_SUMMARY);
             setStatus("success");
         } catch (err) {
-            setError(err.message || "Failed to load dashboard.");
-            setStatus("error");
+            setSummary(DEFAULT_SUMMARY);
+            setStatus("success");
         }
     };
 
@@ -74,25 +85,13 @@ function Home() {
         loadSummary();
     }, []);
 
-    const noSolvesYet = useMemo(() => (summary?.solvedTotal || 0) === 0, [summary?.solvedTotal]);
     const welcomeName = user?.firstName || "Coder";
 
-    if (status === "loading") {
+    if (status === "loading" && !summary) {
         return (
             <div className={`min-h-screen ${darkMode ? "bg-slate-950 text-white" : "bg-[#f8f9fc] text-slate-900"}`}>
                 <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
                 <LoadingState title="Loading your BattleGround home..." description="Bringing back your latest rhythm and next target." darkMode={darkMode} />
-            </div>
-        );
-    }
-
-    if (status === "error") {
-        return (
-            <div className={`min-h-screen ${darkMode ? "bg-slate-950 text-white" : "bg-[#f8f9fc] text-slate-900"}`}>
-                <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
-                <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-                    <ErrorState title="Home is temporarily unavailable" description={error} onRetry={loadSummary} darkMode={darkMode} />
-                </div>
             </div>
         );
     }
@@ -103,23 +102,23 @@ function Home() {
 
             <main className="overflow-hidden">
                 <InteractiveHeroBackdrop darkMode={darkMode} className="border-b border-transparent">
-                    <section className="mx-auto max-w-[1440px] px-4 pt-18 pb-6 sm:px-6 lg:px-8">
-                        <div className="grid gap-6 lg:grid-cols-[1.04fr_0.96fr] lg:items-center">
-                            <div className="max-w-4xl">
-                                <p className={`text-xs font-bold uppercase tracking-[0.26em] ${darkMode ? "text-indigo-400" : "text-indigo-600"}`}>
+                    <section className="mx-auto max-w-[1440px] px-4 pt-16 pb-4 sm:px-6 lg:px-8">
+                        <div className="grid gap-4 lg:grid-cols-[1.04fr_0.96fr] lg:items-center">
+                            <div className="max-w-3xl">
+                                <p className={`text-[11px] font-bold uppercase tracking-[0.24em] ${darkMode ? "text-indigo-400" : "text-indigo-600"}`}>
                                     Welcome back, {welcomeName}
                                 </p>
-                                <BrandWordmark darkMode={darkMode} compact className="mt-2" />
-                                <h1 className="mt-2 text-2xl font-black leading-[1.05] tracking-tight sm:text-3xl lg:text-4xl xl:text-5xl">
+                                <BrandWordmark darkMode={darkMode} compact className="mt-1.5" />
+                                <h1 className="mt-1.5 text-xl font-black leading-[1.08] tracking-tight sm:text-2xl lg:text-3xl xl:text-4xl">
                                     Stay dangerous. Solve with rhythm. Stack one more win.
                                 </h1>
-                                <p className={`mt-2 max-w-2xl text-xs sm:text-sm leading-6 ${darkMode ? "text-slate-400" : "text-slate-600"}`}>
-                                    Your dashboard is built to point at the next move fast: continue the current problem, hit the daily question, or jump straight into the arena.
+                                <p className={`mt-1.5 max-w-xl text-xs sm:text-sm leading-5 ${darkMode ? "text-slate-400" : "text-slate-600"}`}>
+                                    Your dashboard points at the next move fast: continue current problem, hit daily challenge, or battle in the arena.
                                 </p>
-                                <div className="mt-4 flex flex-wrap gap-3">
+                                <div className="mt-3 flex flex-wrap gap-2.5">
                                     <NavLink
                                         to={summary?.continueProblem ? `/problem/${summary.continueProblem.problemId}` : "/problems"}
-                                        className={`rounded-xl px-4 py-2.5 text-xs sm:text-sm font-black transition hover:scale-[1.02] ${
+                                        className={`rounded-xl px-3.5 py-2 text-xs font-black transition hover:scale-[1.02] ${
                                             darkMode
                                                 ? "bg-indigo-500 text-white hover:bg-indigo-400"
                                                 : "bg-slate-900 text-white hover:bg-slate-800"
@@ -129,7 +128,7 @@ function Home() {
                                     </NavLink>
                                     <NavLink
                                         to="/problems"
-                                        className={`rounded-xl border px-4 py-2.5 text-xs sm:text-sm font-black transition ${
+                                        className={`rounded-xl border px-3.5 py-2 text-xs font-black transition ${
                                             darkMode
                                                 ? "border-slate-700 text-slate-200 hover:border-indigo-400 hover:text-white"
                                                 : "border-slate-300 text-slate-700 hover:border-slate-900 hover:text-slate-900"
@@ -140,22 +139,22 @@ function Home() {
                                 </div>
                             </div>
 
-                            <div className="grid gap-2.5 grid-cols-2 sm:gap-3">
+                            <div className="grid gap-2 grid-cols-2 sm:gap-2.5">
                                 <StatPill label="Current streak" value={summary?.currentStreak ?? 0} darkMode={darkMode} accent="text-cyan-500" />
                                 <StatPill label="Longest streak" value={summary?.longestStreak ?? 0} darkMode={darkMode} accent="text-indigo-500" />
                                 <StatPill label="Solved total" value={summary?.solvedTotal ?? 0} darkMode={darkMode} accent="text-emerald-500" />
                                 <StatPill label="Arena rating" value={summary?.battleSnapshot?.rating ?? 1200} darkMode={darkMode} accent="text-fuchsia-500" />
-                                <div className={`col-span-2 rounded-2xl border p-3.5 sm:p-4 ${darkMode ? "border-white/10 bg-white/5" : "border-slate-200 bg-white shadow-sm"}`}>
-                                    <div className="flex items-center justify-between gap-4">
+                                <div className={`col-span-2 rounded-xl border p-3 ${darkMode ? "border-white/10 bg-white/5" : "border-slate-200 bg-white shadow-sm"}`}>
+                                    <div className="flex items-center justify-between gap-3">
                                         <div>
-                                            <p className={`text-[10px] font-bold uppercase tracking-[0.18em] ${darkMode ? "text-slate-500" : "text-slate-400"}`}>Battle snapshot</p>
-                                            <h2 className={`mt-1 text-base sm:text-lg font-black ${darkMode ? "text-white" : "text-slate-900"}`}>
+                                            <p className={`text-[9px] font-bold uppercase tracking-[0.18em] ${darkMode ? "text-slate-500" : "text-slate-400"}`}>Battle snapshot</p>
+                                            <h2 className={`mt-0.5 text-sm sm:text-base font-black ${darkMode ? "text-white" : "text-slate-900"}`}>
                                                 Rank {summary?.battleSnapshot?.rank || user?.rank || "Rookie"}
                                             </h2>
                                         </div>
-                                        <div className={`rounded-xl px-3 py-2 text-right ${darkMode ? "bg-slate-900/80" : "bg-slate-50"}`}>
-                                            <p className={`text-[10px] font-bold uppercase tracking-[0.18em] ${darkMode ? "text-slate-500" : "text-slate-400"}`}>Win rate</p>
-                                            <p className={`mt-1 text-xl sm:text-2xl font-black ${darkMode ? "text-white" : "text-slate-900"}`}>
+                                        <div className={`rounded-lg px-2.5 py-1.5 text-right ${darkMode ? "bg-slate-900/80" : "bg-slate-50"}`}>
+                                            <p className={`text-[9px] font-bold uppercase tracking-[0.18em] ${darkMode ? "text-slate-500" : "text-slate-400"}`}>Win rate</p>
+                                            <p className={`mt-0.5 text-lg font-black ${darkMode ? "text-white" : "text-slate-900"}`}>
                                                 {summary?.battleSnapshot?.winRate ?? 0}%
                                             </p>
                                         </div>
