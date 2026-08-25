@@ -86,6 +86,7 @@ function Home() {
     }, []);
 
     const welcomeName = user?.firstName || "Coder";
+    const noSolvesYet = (summary?.solvedTotal || 0) === 0;
 
     if (status === "loading" && !summary) {
         return (
