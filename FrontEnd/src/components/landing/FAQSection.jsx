@@ -91,7 +91,7 @@ function FAQSection({ darkMode }) {
     const [openIndex, setOpenIndex] = useState(0);
 
     return (
-        <section className="mx-auto max-w-[1440px] px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <section className="mx-auto max-w-[1440px] px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
             <div className="mx-auto max-w-3xl text-center">
                 <p
                     className={`text-xs font-bold uppercase tracking-[0.22em] ${
@@ -101,21 +101,21 @@ function FAQSection({ darkMode }) {
                     FAQ
                 </p>
                 <h2
-                    className={`mt-3 text-3xl font-black sm:text-4xl ${
+                    className={`mt-2 text-2xl font-black sm:text-3xl ${
                         darkMode ? "text-white" : "text-slate-900"
                     }`}
                 >
                     Got questions? We've got answers.
                 </h2>
                 <p
-                    className={`mt-3 text-sm sm:text-base leading-7 ${
+                    className={`mt-2 text-sm leading-6 ${
                         darkMode ? "text-slate-400" : "text-slate-500"
                     }`}
                 >
-                    Everything you need to know about BattleGround and how it helps you dominate DSA.
+                    Everything you need to know about BattleGround in one place.
                 </p>
             </div>
-            <div className="mx-auto mt-10 max-w-2xl space-y-3">
+            <div className="mx-auto mt-8 grid max-w-5xl gap-4 md:grid-cols-2">
                 {faqData.map((item, index) => (
                     <FAQItem
                         key={index}

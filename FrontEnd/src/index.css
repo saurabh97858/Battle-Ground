@@ -128,3 +128,30 @@ body {
   from { opacity: 1; transform: translateY(0); }
   to { opacity: 0; transform: translateY(-8px); }
 }
+
+/* Animated Rainbow Border & Marquee */
+@keyframes rainbowGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.rainbow-border {
+  background: linear-gradient(90deg, #ff007f, #7928ca, #4285f4, #00f2fe, #4facfe, #00c6ff, #ff007f);
+  background-size: 300% 300%;
+  animation: rainbowGlow 4s ease infinite;
+}
+
+@keyframes marqueeLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee-left {
+  display: flex;
+  width: max-content;
+  animation: marqueeLeft 25s linear infinite;
+}
+.animate-marquee-left:hover {
+  animation-play-state: paused;
+}

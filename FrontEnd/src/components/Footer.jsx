@@ -39,17 +39,16 @@ function Footer({ darkMode }) {
                 </div>
 
                 <div>
-                    <p className={headingClass}>Contact</p>
+                    <p className={headingClass}>Connect</p>
                     <div className="mt-3 flex flex-col gap-2">
-                        <a className={linkClass} href="mailto:ritiksharma.14y@gmail.com">coderax.team@gmail.com</a>
-                        <a className={linkClass} href="https://github.com/Ritik-Sharma28" target="_blank" rel="noreferrer">GitHub</a>
-                        <a className={linkClass} href="https://www.linkedin.com/in/ritik-sharma-295536331/" target="_blank" rel="noreferrer">LinkedIn</a>
+                        <a className={linkClass} href="https://github.com/saurabh97858/Battle-Ground" target="_blank" rel="noreferrer">GitHub Repository</a>
+                        <NavLink className={linkClass} to="/problems">Explore Arena</NavLink>
                     </div>
                 </div>
             </div>
 
             {/* Bottom credit bar */}
-            <div className={`border-t ${darkMode ? "border-slate-800" : "border-slate-200"}`}>
+            <div className={`border-t ${darkMode ? "border-slate-800/80" : "border-slate-200"}`}>
                 <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-5 sm:flex-row sm:px-6 lg:px-8">
                     <p className={`text-xs ${darkMode ? "text-slate-500" : "text-slate-400"}`}>
                         © {new Date().getFullYear()} BattleGround. All rights reserved.
@@ -57,7 +56,7 @@ function Footer({ darkMode }) {
                     <p className={`text-xs font-semibold ${darkMode ? "text-slate-400" : "text-slate-500"}`}>
                         Made with ❤️ by{" "}
                         <span className={`font-black ${darkMode ? "text-indigo-400" : "text-indigo-600"}`}>
-                            Ritik Sharma
+                            Saurabh Gupta
                         </span>
                     </p>
                 </div>

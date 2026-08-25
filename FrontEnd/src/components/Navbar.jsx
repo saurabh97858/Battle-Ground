@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { NavLink } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../services/slices/authSlice";
@@ -23,7 +23,24 @@ function Navbar({ darkMode, setDarkMode }) {
     const { isAuthenticated, user } = useSelector((state) => state.auth);
     const [menuOpen, setMenuOpen] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
+    const [visible, setVisible] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
+
     const links = useMemo(() => (isAuthenticated ? authedLinks : guestLinks), [isAuthenticated]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            if (currentScrollY > lastScrollY && currentScrollY > 60) {
+                setVisible(false);
+            } else {
+                setVisible(true);
+            }
+            setLastScrollY(currentScrollY);
+        };
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [lastScrollY]);
 
     const buildNavClass = (link) => ({ isActive }) =>
         `rounded-xl px-3 py-2 text-sm font-semibold transition ${
@@ -43,10 +60,10 @@ function Navbar({ darkMode, setDarkMode }) {
     };
 
     return (
-        <header className={`sticky top-0 z-50 border-b backdrop-blur-xl ${darkMode ? "border-slate-800 bg-slate-950/85" : "border-slate-200 bg-white/85"}`}>
+        <header className={`fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-xl transition-transform duration-300 ${visible ? "translate-y-0" : "-translate-y-full"} ${darkMode ? "border-slate-800 bg-slate-950/85" : "border-slate-200/80 bg-white/85"}`}>
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:h-[74px] lg:px-8">
                 <NavLink to="/" className="flex items-center gap-3">
-                    <img src="/coderax_logo.png" alt="BattleGround Logo" className="h-10 w-10 rounded-2xl object-cover shadow-lg shadow-cyan-500/20" />
+                    <img src="/battleground_logo.png" alt="BattleGround Logo" className="h-10 w-10 rounded-2xl object-cover shadow-lg shadow-cyan-500/20" />
                     <div>
                         <BrandWordmark darkMode={darkMode} compact />
                         <p className={`hidden text-[10px] font-bold uppercase tracking-[0.18em] sm:block ${darkMode ? "text-slate-500" : "text-slate-400"}`}>
@@ -83,12 +100,9 @@ function Navbar({ darkMode, setDarkMode }) {
                         <div className="hidden items-center gap-2 sm:flex">
                             <NavLink
                                 to="/login"
-                                className={`rounded-xl px-4 py-2 text-sm font-bold transition ${darkMode ? "text-slate-200 hover:bg-slate-800" : "text-slate-700 hover:bg-slate-100"}`}
+                                className="rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-5 py-2 text-sm font-bold text-white shadow-md transition hover:from-indigo-500 hover:to-purple-500 hover:shadow-indigo-500/25"
                             >
                                 Log In
-                            </NavLink>
-                            <NavLink to="/signup" className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-bold text-white transition hover:bg-slate-800">
-                                Sign Up
                             </NavLink>
                         </div>
                     </SignedOut>
@@ -139,12 +153,9 @@ function Navbar({ darkMode, setDarkMode }) {
                                 </button>
                             </>
                         ) : (
-                            <div className="mt-2 grid gap-2 sm:grid-cols-2">
-                                <NavLink to="/login" onClick={() => setMenuOpen(false)} className={buildNavClass({ activeDark: "bg-slate-800 text-white", activeLight: "bg-slate-100 text-slate-900" })}>
+                            <div className="mt-2">
+                                <NavLink to="/login" onClick={() => setMenuOpen(false)} className="block w-full rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-2.5 text-center text-sm font-bold text-white shadow-md">
                                     Log In
-                                </NavLink>
-                                <NavLink to="/signup" onClick={() => setMenuOpen(false)} className="rounded-xl bg-slate-900 px-4 py-2 text-center text-sm font-bold text-white">
-                                    Sign Up
                                 </NavLink>
                             </div>
                         )}
