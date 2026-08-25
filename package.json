@@ -1,0 +1,9 @@
+{
+  "name": "battle-ground-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cd FrontEnd && npm install && npm run build",
+    "start": "cd FrontEnd && npm run preview"
+  }
+}
