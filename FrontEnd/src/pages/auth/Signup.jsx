@@ -12,13 +12,13 @@ function Signup() {
     ];
 
     return (
-        <div className="h-screen w-screen overflow-hidden bg-[linear-gradient(180deg,_#f8f9fc_0%,_#ffffff_42%,_#eef2ff_100%)] p-4 sm:p-6 lg:p-8">
-            <div className="mx-auto grid h-full max-w-[1440px] gap-6 lg:grid-cols-[1fr_1fr] lg:items-center">
-                <section className="flex h-full items-center justify-center">
+        <div className="min-h-screen w-full bg-[linear-gradient(180deg,_#f8f9fc_0%,_#ffffff_42%,_#eef2ff_100%)] px-4 py-8 sm:px-6 lg:px-8 flex items-center justify-center">
+            <div className="mx-auto grid w-full max-w-[1440px] gap-6 lg:grid-cols-[1fr_1fr] lg:items-center">
+                <section className="flex items-center justify-center py-4">
                     <SignUp path="/signup" routing="path" signInUrl="/login" fallbackRedirectUrl="/" />
                 </section>
 
-                <InteractiveHeroBackdrop darkMode className="hidden h-full rounded-[38px] border border-white/10 shadow-[0_40px_140px_-60px_rgba(99,102,241,0.45)] lg:block">
+                <InteractiveHeroBackdrop darkMode className="hidden min-h-[580px] rounded-[38px] border border-white/10 shadow-[0_40px_140px_-60px_rgba(99,102,241,0.45)] lg:block">
                     <section className="relative flex h-full flex-col justify-between p-8 text-white xl:p-12">
                         <div>
                             <NavLink to="/" className="inline-flex items-center gap-3">
