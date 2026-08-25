@@ -1,42 +1,8 @@
 {
-  "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "FrontEnd/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    },
-    {
-      "src": "BackEnd/src/server.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "BackEnd/src/server.js"
-    },
-    {
-      "src": "/auth/(.*)",
-      "dest": "BackEnd/src/server.js"
-    },
-    {
-      "src": "/problem/(.*)",
-      "dest": "BackEnd/src/server.js"
-    },
-    {
-      "src": "/submission/(.*)",
-      "dest": "BackEnd/src/server.js"
-    },
-    {
-      "src": "/ai/(.*)",
-      "dest": "BackEnd/src/server.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "FrontEnd/$1"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
