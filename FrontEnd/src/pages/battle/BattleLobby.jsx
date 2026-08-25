@@ -415,23 +415,23 @@ const BattleLobby = () => {
     <div className={`min-h-screen flex flex-col ${darkMode ? 'bg-slate-950' : 'bg-slate-50'}`}>
       <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
 
-      <div className="flex-1 flex items-center justify-center pt-24 pb-8 px-4">
-        <div className={`w-full max-w-xl p-4 sm:p-10 rounded-2xl shadow-xl border ${darkMode ? 'bg-slate-900 border-slate-800 shadow-[0_10px_40px_-10px_rgba(79,70,229,0.15)]' : 'bg-white border-slate-200'}`}>
-          <div className="text-center mb-8">
-            <h1 className={`text-2xl sm:text-5xl font-black mb-2 tracking-tight ${darkMode ? 'text-white' : 'text-slate-900'}`}>DSA Arena</h1>
-            <p className={`text-sm font-bold ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>Dominate the leaderboards in real-time battles.</p>
+      <div className="flex-1 flex items-center justify-center pt-16 pb-4 px-4">
+        <div className={`w-full max-w-xl p-4 sm:p-6 rounded-2xl shadow-xl border ${darkMode ? 'bg-slate-900 border-slate-800 shadow-[0_10px_40px_-10px_rgba(79,70,229,0.15)]' : 'bg-white border-slate-200'}`}>
+          <div className="text-center mb-4">
+            <h1 className={`text-2xl sm:text-4xl font-black mb-1 tracking-tight ${darkMode ? 'text-white' : 'text-slate-900'}`}>DSA Arena</h1>
+            <p className={`text-xs sm:text-sm font-bold ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>Dominate the leaderboards in real-time battles.</p>
           </div>
 
-          {error && <div className="bg-red-500/10 border border-red-500/50 text-red-500 text-sm font-bold p-3 rounded-lg text-center mb-6">{error}</div>}
+          {error && <div className="bg-red-500/10 border border-red-500/50 text-red-500 text-xs font-bold p-2.5 rounded-lg text-center mb-4">{error}</div>}
 
           {/* Fix 4: Search timeout feedback */}
           {searchTimedOut && (
-            <div className="bg-amber-500/10 border border-amber-500/50 text-amber-500 text-sm font-bold p-3 rounded-lg text-center mb-6">
+            <div className="bg-amber-500/10 border border-amber-500/50 text-amber-500 text-xs font-bold p-2.5 rounded-lg text-center mb-4">
               No opponents found — please try again!
             </div>
           )}
 
-          <div className={`flex p-1 rounded-xl mb-8 ${darkMode ? 'bg-slate-800' : 'bg-slate-100'}`}>
+          <div className={`flex p-1 rounded-xl mb-5 ${darkMode ? 'bg-slate-800' : 'bg-slate-100'}`}>
             <button
               onClick={() => setActiveTab('Ranked')}
               className={`flex-1 py-2.5 sm:py-3 text-xs sm:text-sm font-bold rounded-lg transition-all ${activeTab === 'Ranked' ? 'bg-indigo-600 text-white shadow' : (darkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-900')}`}

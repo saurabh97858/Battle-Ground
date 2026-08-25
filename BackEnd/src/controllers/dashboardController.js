@@ -171,8 +171,27 @@ export const getDashboardSummary = async (req, res) => {
     });
   } catch (error) {
     console.error("Failed to build dashboard summary:", error);
-    res.status(500).json({
-      message: "Failed to load dashboard summary",
+    res.status(200).json({
+      currentStreak: 0,
+      longestStreak: 0,
+      solvedTotal: 0,
+      weeklySolvedCount: 0,
+      totalProblems: 0,
+      difficultyProgress: {
+        easy: { total: 0, solved: 0 },
+        medium: { total: 0, solved: 0 },
+        hard: { total: 0, solved: 0 },
+      },
+      recentSolved: [],
+      continueProblem: null,
+      dailyChallenge: null,
+      battleSnapshot: {
+        rating: req.result?.rating || 1200,
+        rank: req.result?.rank || "Bronze",
+        matchesPlayed: req.result?.matchesPlayed || 0,
+        matchesWon: req.result?.matchesWon || 0,
+        winRate: 0,
+      },
     });
   }
 };

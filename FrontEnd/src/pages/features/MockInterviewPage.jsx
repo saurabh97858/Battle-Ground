@@ -1048,18 +1048,18 @@ export default function MockInterviewPage() {
     <div className={joinClassNames("min-h-screen transition-colors duration-300", darkMode ? "bg-slate-950" : "bg-slate-50")}>
       <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
 
-      <div className="mx-auto max-w-7xl px-4 pt-24 pb-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 pt-20 pb-2 sm:px-6 lg:px-8">
         {phase === "setup" && (
-          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
             <section
               className={joinClassNames(
-                "rounded-3xl border p-8 shadow-xl",
+                "rounded-3xl border p-6 shadow-xl",
                 darkMode
                   ? "border-slate-800 bg-slate-900/90"
                   : "border-slate-200 bg-white"
               )}
             >
-              <div className="mb-8">
+              <div className="mb-4">
                 <span
                   className={joinClassNames(
                     "inline-flex rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.2em]",
@@ -1068,17 +1068,17 @@ export default function MockInterviewPage() {
                 >
                   Mock AI Interview ({user?.role === 'admin' ? 'Unlimited' : user?.mockInterviewUseLeft ?? 0} uses left today)
                 </span>
-                <h1 className={joinClassNames("mt-4 text-4xl font-black tracking-tight", darkMode ? "text-white" : "text-slate-900")}>
+                <h1 className={joinClassNames("mt-2 text-2xl sm:text-3xl font-black tracking-tight", darkMode ? "text-white" : "text-slate-900")}>
                   Set up a whiteboard interview that feels like a real screen.
                 </h1>
-                <p className={joinClassNames("mt-3 max-w-2xl text-sm leading-7", darkMode ? "text-slate-400" : "text-slate-600")}>
-                  The interviewer will talk through your reasoning, react to your whiteboard code, and grade the full session afterward. No compiler, no execution, just logic and communication.
+                <p className={joinClassNames("mt-2 max-w-2xl text-xs sm:text-sm leading-6", darkMode ? "text-slate-400" : "text-slate-600")}>
+                  The interviewer will talk through your reasoning, react to your whiteboard code, and grade the full session afterward.
                 </p>
               </div>
 
-              <div className="grid gap-6 md:grid-cols-2">
-                <label className="flex flex-col gap-2">
-                  <span className={joinClassNames("text-sm font-semibold", darkMode ? "text-slate-200" : "text-slate-700")}>Tech Stack</span>
+              <div className="grid gap-4 md:grid-cols-2">
+                <label className="flex flex-col gap-1.5">
+                  <span className={joinClassNames("text-xs font-semibold", darkMode ? "text-slate-200" : "text-slate-700")}>Tech Stack</span>
                   <input
                     value={form.techStack}
                     onChange={(event) =>
@@ -1086,7 +1086,7 @@ export default function MockInterviewPage() {
                     }
                     placeholder="React, Node.js, TypeScript"
                     className={joinClassNames(
-                      "rounded-2xl border px-4 py-3 text-sm outline-none transition",
+                      "rounded-xl border px-3.5 py-2.5 text-xs outline-none transition",
                       darkMode
                         ? "border-slate-700 bg-slate-950 text-slate-100 placeholder:text-slate-500 focus:border-cyan-400"
                         : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-cyan-500"
@@ -1094,15 +1094,15 @@ export default function MockInterviewPage() {
                   />
                 </label>
 
-                <label className="flex flex-col gap-2">
-                  <span className={joinClassNames("text-sm font-semibold", darkMode ? "text-slate-200" : "text-slate-700")}>Focus Area</span>
+                <label className="flex flex-col gap-1.5">
+                  <span className={joinClassNames("text-xs font-semibold", darkMode ? "text-slate-200" : "text-slate-700")}>Focus Area</span>
                   <select
                     value={form.focusArea}
                     onChange={(event) =>
                       setForm((current) => ({ ...current, focusArea: event.target.value }))
                     }
                     className={joinClassNames(
-                      "rounded-2xl border px-4 py-3 text-sm outline-none transition",
+                      "rounded-xl border px-3.5 py-2.5 text-xs outline-none transition",
                       darkMode
                         ? "border-slate-700 bg-slate-950 text-slate-100 focus:border-cyan-400"
                         : "border-slate-200 bg-white text-slate-900 focus:border-cyan-500"
@@ -1116,15 +1116,15 @@ export default function MockInterviewPage() {
                   </select>
                 </label>
 
-                <label className="flex flex-col gap-2">
-                  <span className={joinClassNames("text-sm font-semibold", darkMode ? "text-slate-200" : "text-slate-700")}>Difficulty</span>
+                <label className="flex flex-col gap-1.5">
+                  <span className={joinClassNames("text-xs font-semibold", darkMode ? "text-slate-200" : "text-slate-700")}>Difficulty</span>
                   <select
                     value={form.difficulty}
                     onChange={(event) =>
                       setForm((current) => ({ ...current, difficulty: event.target.value }))
                     }
                     className={joinClassNames(
-                      "rounded-2xl border px-4 py-3 text-sm outline-none transition",
+                      "rounded-xl border px-3.5 py-2.5 text-xs outline-none transition",
                       darkMode
                         ? "border-slate-700 bg-slate-950 text-slate-100 focus:border-cyan-400"
                         : "border-slate-200 bg-white text-slate-900 focus:border-cyan-500"
@@ -1138,8 +1138,8 @@ export default function MockInterviewPage() {
                   </select>
                 </label>
 
-                <label className="flex flex-col gap-2">
-                  <span className={joinClassNames("text-sm font-semibold", darkMode ? "text-slate-200" : "text-slate-700")}>Interview Topic</span>
+                <label className="flex flex-col gap-1.5">
+                  <span className={joinClassNames("text-xs font-semibold", darkMode ? "text-slate-200" : "text-slate-700")}>Interview Topic</span>
                   <input
                     value={form.topic}
                     onChange={(event) =>
@@ -1147,7 +1147,7 @@ export default function MockInterviewPage() {
                     }
                     placeholder="Binary Search on Answer"
                     className={joinClassNames(
-                      "rounded-2xl border px-4 py-3 text-sm outline-none transition",
+                      "rounded-xl border px-3.5 py-2.5 text-xs outline-none transition",
                       darkMode
                         ? "border-slate-700 bg-slate-950 text-slate-100 placeholder:text-slate-500 focus:border-cyan-400"
                         : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-cyan-500"
@@ -1156,12 +1156,12 @@ export default function MockInterviewPage() {
                 </label>
               </div>
 
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-5 flex flex-wrap gap-3">
                 <button
                   onClick={handleStartInterview}
                   disabled={isStarting}
                   className={joinClassNames(
-                    "inline-flex items-center rounded-2xl px-6 py-3 text-sm font-bold transition",
+                    "inline-flex items-center rounded-xl px-5 py-2.5 text-xs font-bold transition",
                     isStarting
                       ? "cursor-not-allowed bg-slate-400 text-white"
                       : "bg-cyan-600 text-white hover:bg-cyan-500"
@@ -1172,7 +1172,7 @@ export default function MockInterviewPage() {
                 <button
                   onClick={handleQuickStart}
                   className={joinClassNames(
-                    "inline-flex items-center rounded-2xl border px-6 py-3 text-sm font-bold transition",
+                    "inline-flex items-center rounded-xl border px-5 py-2.5 text-xs font-bold transition",
                     darkMode
                       ? "border-slate-700 text-slate-200 hover:border-cyan-400 hover:text-cyan-300"
                       : "border-slate-200 text-slate-700 hover:border-cyan-500 hover:text-cyan-700"
@@ -1185,7 +1185,7 @@ export default function MockInterviewPage() {
               {error && (
                 <div
                   className={joinClassNames(
-                    "mt-6 rounded-2xl border px-4 py-3 text-sm",
+                    "mt-4 rounded-xl border px-3.5 py-2.5 text-xs",
                     darkMode
                       ? "border-red-500/30 bg-red-500/10 text-red-300"
                       : "border-red-200 bg-red-50 text-red-700"
@@ -1198,36 +1198,36 @@ export default function MockInterviewPage() {
 
             <aside
               className={joinClassNames(
-                "rounded-3xl border p-8",
+                "rounded-3xl border p-6",
                 darkMode
                   ? "border-slate-800 bg-gradient-to-br from-slate-900 via-slate-900 to-cyan-950/40"
                   : "border-slate-200 bg-gradient-to-br from-white via-cyan-50 to-slate-100"
               )}
             >
-              <h2 className={joinClassNames("text-xl font-black", darkMode ? "text-white" : "text-slate-900")}>
+              <h2 className={joinClassNames("text-lg font-black", darkMode ? "text-white" : "text-slate-900")}>
                 Interview preview
               </h2>
-              <div className="mt-6 space-y-4">
+              <div className="mt-4 space-y-2.5">
                 {setupSummary.map((item) => (
                   <div
                     key={item.label}
                     className={joinClassNames(
-                      "rounded-2xl border px-4 py-4",
+                      "rounded-xl border px-3.5 py-2.5",
                       darkMode ? "border-slate-800 bg-slate-950/60" : "border-white/70 bg-white/80"
                     )}
                   >
-                    <p className={joinClassNames("text-xs font-bold uppercase tracking-[0.18em]", darkMode ? "text-slate-500" : "text-slate-400")}>
+                    <p className={joinClassNames("text-[10px] font-bold uppercase tracking-[0.18em]", darkMode ? "text-slate-500" : "text-slate-400")}>
                       {item.label}
                     </p>
-                    <p className={joinClassNames("mt-2 text-sm font-semibold", darkMode ? "text-slate-200" : "text-slate-800")}>
+                    <p className={joinClassNames("mt-1 text-xs font-semibold", darkMode ? "text-slate-200" : "text-slate-800")}>
                       {item.value}
                     </p>
                   </div>
                 ))}
               </div>
-              <div className="mt-8 rounded-2xl border border-dashed border-cyan-400/40 px-4 py-4">
-                <p className={joinClassNames("text-sm leading-7", darkMode ? "text-slate-300" : "text-slate-700")}>
-                  The AI interviewer will listen to your voice, inspect your whiteboard updates every 1.5 seconds after you pause typing, and keep the conversation focused on the chosen topic.
+              <div className="mt-4 rounded-xl border border-dashed border-cyan-400/40 px-3.5 py-3">
+                <p className={joinClassNames("text-xs leading-5", darkMode ? "text-slate-300" : "text-slate-700")}>
+                  The AI interviewer will listen to your voice, inspect your whiteboard updates every 1.5 seconds, and keep the conversation focused on your topic.
                 </p>
               </div>
             </aside>
