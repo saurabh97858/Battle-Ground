@@ -111,20 +111,11 @@ function Navbar({ darkMode, setDarkMode }) {
                         <div className="flex items-center gap-2">
                             <UserButton showName appearance={{
                                 elements: {
-                                    userButtonOuterIdentifier: darkMode ? "text-slate-200 font-bold text-xs sm:text-sm max-w-[110px] truncate" : "text-slate-800 font-bold text-xs sm:text-sm max-w-[110px] truncate"
+                                    userButtonOuterIdentifier: darkMode ? "text-slate-200 font-bold text-xs sm:text-sm max-w-[120px] truncate" : "text-slate-800 font-bold text-xs sm:text-sm max-w-[120px] truncate"
                                 }
                             }} />
                         </div>
                     </SignedIn>
-
-                    {/* Local auth fallback when not signed in through Clerk */}
-                    {isAuthenticated ? (
-                        <div className="hidden items-center gap-2 sm:flex">
-                            <span className={`text-xs font-bold truncate max-w-[110px] ${darkMode ? "text-slate-300" : "text-slate-700"}`}>
-                                {user?.firstName || "Saurabh"}
-                            </span>
-                        </div>
-                    ) : null}
 
                     <button
                         onClick={() => setMenuOpen((value) => !value)}
