@@ -1,10 +1,57 @@
 {
-  "buildCommand": "cd FrontEnd && npm install && npm run build",
-  "outputDirectory": "FrontEnd/dist",
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "FrontEnd/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    },
+    {
+      "src": "BackEnd/src/server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/auth/(.*)",
+      "dest": "BackEnd/src/server.js"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "BackEnd/src/server.js"
+    },
+    {
+      "src": "/problem/(.*)",
+      "dest": "BackEnd/src/server.js"
+    },
+    {
+      "src": "/submission/(.*)",
+      "dest": "BackEnd/src/server.js"
+    },
+    {
+      "src": "/ai/(.*)",
+      "dest": "BackEnd/src/server.js"
+    },
+    {
+      "src": "/video/(.*)",
+      "dest": "BackEnd/src/server.js"
+    },
+    {
+      "src": "/server-api/(.*)",
+      "dest": "BackEnd/src/server.js"
+    },
+    {
+      "src": "/ping",
+      "dest": "BackEnd/src/server.js"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "FrontEnd/index.html"
     }
   ]
 }

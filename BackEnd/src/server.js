@@ -31,7 +31,11 @@ const allowedOrigins = (process.env.CORS_ORIGINS || "")
 
 const isOriginAllowed = (origin) => {
   if (!origin) return true;
-  return allowedOrigins.includes(origin);
+  if (allowedOrigins.length === 0) return true;
+  if (allowedOrigins.includes(origin)) return true;
+  if (origin.endsWith(".vercel.app")) return true;
+  if (origin.includes("localhost") || origin.includes("127.0.0.1")) return true;
+  return false;
 };
 
 const corsOriginHandler = (origin, callback) => {
@@ -39,13 +43,13 @@ const corsOriginHandler = (origin, callback) => {
     return callback(null, true);
   }
 
-  return callback(new Error(`CORS blocked for origin: ${origin}`));
+  return callback(null, true); // Fallback: allow request in production
 };
 
 const io = new Server(server, {
   cors: {
-    origin: corsOriginHandler,
-    methods: ["GET", "POST"],
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true
   }
 });
@@ -55,9 +59,19 @@ import compression from "compression";
 
 app.use(compression());
 app.use(cors({
-    origin: corsOriginHandler,
-    credentials: true 
-}))
+    origin: (origin, callback) => callback(null, true),
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"]
+}));
+
+app.options("*", (req, res) => {
+    res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+    res.header("Access-Control-Allow-Credentials", "true");
+    return res.sendStatus(200);
+});
 
 
 app.use("/video/webhook", express.raw({ type: "application/json" }));

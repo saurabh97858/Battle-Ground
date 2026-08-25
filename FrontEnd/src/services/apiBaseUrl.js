@@ -18,7 +18,7 @@ export const getApiBaseUrl = () => {
   }
 
   if (isBrowser) {
-    return '/server-api';
+    return '';
   }
 
   return 'http://localhost:3000';
