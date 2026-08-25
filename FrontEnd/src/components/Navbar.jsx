@@ -111,7 +111,7 @@ function Navbar({ darkMode, setDarkMode }) {
                         <div className="flex items-center gap-2">
                             <UserButton showName appearance={{
                                 elements: {
-                                    userButtonOuterIdentifier: darkMode ? "text-slate-200 font-bold text-xs sm:text-sm max-w-[120px] truncate" : "text-slate-800 font-bold text-xs sm:text-sm max-w-[120px] truncate"
+                                    userButtonOuterIdentifier: darkMode ? "hidden sm:inline-block text-slate-200 font-bold text-xs sm:text-sm max-w-[120px] truncate" : "hidden sm:inline-block text-slate-800 font-bold text-xs sm:text-sm max-w-[120px] truncate"
                                 }
                             }} />
                         </div>

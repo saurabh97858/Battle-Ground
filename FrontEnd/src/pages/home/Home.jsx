@@ -102,7 +102,7 @@ function Home() {
             <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
 
             <main className="overflow-hidden">
-                <InteractiveHeroBackdrop darkMode={darkMode} className="border-b border-transparent min-h-[calc(100vh-68px)] flex flex-col justify-center pt-16 pb-6">
+                <InteractiveHeroBackdrop darkMode={darkMode} className="border-b border-transparent min-h-[calc(100vh-68px)] flex flex-col justify-center pt-20 pb-8 lg:py-6">
                     <section className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8 my-auto">
                         <div className="grid gap-6 lg:grid-cols-[1.04fr_0.96fr] lg:items-center">
                             <div className="max-w-3xl">
@@ -116,10 +116,10 @@ function Home() {
                                 <p className={`mt-3 max-w-xl text-xs sm:text-sm leading-6 ${darkMode ? "text-slate-400" : "text-slate-600"}`}>
                                     Your dashboard points at the next move fast: continue current problem, hit daily challenge, or battle in the arena.
                                 </p>
-                                <div className="mt-5 flex flex-wrap gap-3">
+                                <div className="mt-5 flex flex-col sm:flex-row flex-wrap gap-3">
                                     <NavLink
                                         to={summary?.continueProblem ? `/problem/${summary.continueProblem.problemId}` : "/problems"}
-                                        className={`rounded-xl px-5 py-2.5 text-xs sm:text-sm font-black transition hover:scale-[1.02] ${
+                                        className={`w-full sm:w-auto text-center rounded-xl px-5 py-2.5 text-xs sm:text-sm font-black transition hover:scale-[1.02] ${
                                             darkMode
                                                 ? "bg-indigo-500 text-white hover:bg-indigo-400"
                                                 : "bg-slate-900 text-white hover:bg-slate-800"
@@ -129,7 +129,7 @@ function Home() {
                                     </NavLink>
                                     <NavLink
                                         to="/problems"
-                                        className={`rounded-xl border px-5 py-2.5 text-xs sm:text-sm font-black transition ${
+                                        className={`w-full sm:w-auto text-center rounded-xl border px-5 py-2.5 text-xs sm:text-sm font-black transition ${
                                             darkMode
                                                 ? "border-slate-700 text-slate-200 hover:border-indigo-400 hover:text-white"
                                                 : "border-slate-300 text-slate-700 hover:border-slate-900 hover:text-slate-900"
