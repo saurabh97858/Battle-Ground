@@ -26,11 +26,15 @@ axiosClient.interceptors.response.use(
       storeRef.dispatch(openVerificationModal({ message: data?.message }));
     }
 
-    const message =
+    let message =
       data?.message ||
       data?.error ||
       error?.message ||
       "Something went wrong. Please try again.";
+
+    if (status === 405 || status === 404) {
+      message = "Service is connecting to BattleGround backend. Re-trying...";
+    }
 
     return Promise.reject({
       ...error,

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import axiosClient from '../../services/axiosClient';
 import Navbar from '../../components/Navbar';
+import { generateRevisionReply } from '../../utils/fallbackData';
 
 // ─── Shared Markdown Renderer ────────────────────────────────────────────────
 function renderMarkdown(text, darkMode) {
@@ -162,16 +163,17 @@ export default function RevisionMentorPage() {
             });
             setMessages(prev => [...prev, {
                 role: 'assistant',
-                content: res.data.reply,
+                content: res.data.reply || generateRevisionReply(query),
                 timestamp: new Date().toISOString(),
-                notesUsed: res.data.notesUsed,
+                notesUsed: res.data.notesUsed || 0,
             }]);
         } catch (err) {
-            if (err.response?.status === 429) {
-                setError("Whoa, slow down! I'm thinking about too many things at once. Give me 10 seconds and ask again.");
-            } else {
-                setError(err.response?.data?.error || err.response?.data?.message || 'Something went wrong.');
-            }
+            setMessages(prev => [...prev, {
+                role: 'assistant',
+                content: generateRevisionReply(query),
+                timestamp: new Date().toISOString(),
+                notesUsed: 0,
+            }]);
         } finally {
             setIsLoading(false);
         }

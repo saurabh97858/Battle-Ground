@@ -1,27 +1,60 @@
 import axiosClient from './axiosClient';
+import { FALLBACK_PROBLEMS, getFallbackProblem } from '../utils/fallbackData';
 
 const problemService = {
     getAllProblems: async () => {
-        const response = await axiosClient.get('/problem/getAllProblem');
-        return response.data;
+        try {
+            const response = await axiosClient.get('/problem/getAllProblem');
+            if (Array.isArray(response.data) && response.data.length > 0) {
+                return response.data;
+            }
+            return FALLBACK_PROBLEMS;
+        } catch (err) {
+            return FALLBACK_PROBLEMS;
+        }
     },
     getPublicProblems: async () => {
-        const response = await axiosClient.get('/problem/public');
-        return response.data;
+        try {
+            const response = await axiosClient.get('/problem/public');
+            if (Array.isArray(response.data) && response.data.length > 0) {
+                return response.data;
+            }
+            return FALLBACK_PROBLEMS;
+        } catch (err) {
+            return FALLBACK_PROBLEMS;
+        }
     },
 
     getProblemById: async (id) => {
-        const response = await axiosClient.get(`/problem/problemById/${id}`);
-        return response.data;
+        try {
+            const response = await axiosClient.get(`/problem/problemById/${id}`);
+            if (response.data && response.data.title) {
+                return response.data;
+            }
+            return getFallbackProblem(id);
+        } catch (err) {
+            return getFallbackProblem(id);
+        }
     },
     getPublicProblemById: async (id) => {
-        const response = await axiosClient.get(`/problem/public/${id}`);
-        return response.data;
+        try {
+            const response = await axiosClient.get(`/problem/public/${id}`);
+            if (response.data && response.data.title) {
+                return response.data;
+            }
+            return getFallbackProblem(id);
+        } catch (err) {
+            return getFallbackProblem(id);
+        }
     },
 
     getSolvedProblems: async () => {
-        const response = await axiosClient.get('/problem/problemSolvedByUser');
-        return response.data;
+        try {
+            const response = await axiosClient.get('/problem/problemSolvedByUser');
+            return Array.isArray(response.data) ? response.data : [];
+        } catch (err) {
+            return [];
+        }
     },
 
     createProblem: async (problemData) => {
