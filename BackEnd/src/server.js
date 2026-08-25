@@ -84,6 +84,8 @@ app.get("/ping", (req, res) => {
 
 
 
+import { seedProblems } from "./utils/seedProblems.js";
+
 const serverConnect = async () => {
   try {
     initEmbedder().catch((e) => console.error("Embedder init warning:", e?.message || e));
@@ -91,6 +93,7 @@ const serverConnect = async () => {
     try {
       await main();
       console.log("Connected to db successfully.");
+      await seedProblems();
     } catch (err) {
       console.error("MongoDB connection error at startup:", err?.message || err);
     }

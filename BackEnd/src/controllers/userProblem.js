@@ -116,50 +116,39 @@ export const deleteProblem = async (req, res) => {
     }
 }
 
+import { FULL_PROBLEMS_SEED } from "../utils/seedProblems.js";
+
 export const getPublicProblemById = async (req, res) => {
     try {
         const { id } = req.params;
-        const problem = await Problem.findById(id)
-            .select('_id title description difficulty tags visibleTestCases startCode referenceSolution problemSignature');
+        let problem = await withTimeout(
+            Problem.findById(id).select('_id title description difficulty tags visibleTestCases startCode referenceSolution problemSignature').lean(),
+            null,
+            1200
+        );
 
         if (!problem) {
-            return res.status(404).json({
-                message: "Problem not found"
-            });
+            problem = FULL_PROBLEMS_SEED.find(p => p._id === id) || FULL_PROBLEMS_SEED[0];
         }
 
         res.status(200).json(problem);
     } catch (err) {
-        res.status(500).json({
-            message: err?.message || "Failed to fetch problem"
-        });
+        const fallback = FULL_PROBLEMS_SEED.find(p => p._id === req.params.id) || FULL_PROBLEMS_SEED[0];
+        res.status(200).json(fallback);
     }
 }
-
-const FALLBACK_PROBLEMS = [
-    { _id: "650000000000000000000001", title: "Two Sum", difficulty: "easy", tags: ["Array", "Hash Table"] },
-    { _id: "650000000000000000000002", title: "Reverse Linked List", difficulty: "easy", tags: ["Linked List"] },
-    { _id: "650000000000000000000003", title: "Valid Anagram", difficulty: "easy", tags: ["String", "Hash Table"] },
-    { _id: "650000000000000000000004", title: "Binary Search", difficulty: "easy", tags: ["Binary Search", "Array"] },
-    { _id: "650000000000000000000005", title: "3Sum", difficulty: "medium", tags: ["Array", "Two Pointers"] },
-    { _id: "650000000000000000000006", title: "Longest Substring Without Repeating Characters", difficulty: "medium", tags: ["Sliding Window", "String"] },
-    { _id: "650000000000000000000007", title: "Container With Most Water", difficulty: "medium", tags: ["Two Pointers", "Array"] },
-    { _id: "650000000000000000000008", title: "Coin Change", difficulty: "medium", tags: ["Dynamic Programming"] },
-    { _id: "650000000000000000000009", title: "Trapping Rain Water", difficulty: "hard", tags: ["Two Pointers", "Stack"] },
-    { _id: "650000000000000000000010", title: "LRU Cache", difficulty: "hard", tags: ["Linked List", "Hash Table"] }
-];
 
 export const getPublicProblems = async (_req, res) => {
     try {
         const problems = await withTimeout(
             Problem.find({}).select('_id title difficulty tags').lean(),
-            FALLBACK_PROBLEMS,
+            FULL_PROBLEMS_SEED,
             1200
         );
-        res.status(200).json((problems && problems.length > 0) ? problems : FALLBACK_PROBLEMS);
+        res.status(200).json((problems && problems.length > 0) ? problems : FULL_PROBLEMS_SEED);
     } catch (err) {
         console.error("getPublicProblems DB error:", err?.message || err);
-        res.status(200).json(FALLBACK_PROBLEMS);
+        res.status(200).json(FULL_PROBLEMS_SEED);
     }
 }
 
@@ -173,25 +162,27 @@ export const getProblemById = async (req, res) => {
         let problem;
         if (req.result?.role === 'admin') {
             problem = await withTimeout(
-                Problem.findById(id).populate('problemCreator', 'firstName emailId'),
+                Problem.findById(id).populate('problemCreator', 'firstName emailId').lean(),
                 null,
                 1200
             );
         } else {
             problem = await withTimeout(
-                Problem.findById(id).select('_id title description difficulty tags visibleTestCases startCode referenceSolution problemSignature'),
+                Problem.findById(id).select('_id title description difficulty tags visibleTestCases startCode referenceSolution problemSignature').lean(),
                 null,
                 1200
             );
         }
 
-        if (!problem)
-            return res.status(404).send("Problem Not Found")
+        if (!problem) {
+            problem = FULL_PROBLEMS_SEED.find(p => p._id === id) || FULL_PROBLEMS_SEED[0];
+        }
 
-        res.send(problem)
+        res.status(200).json(problem);
 
     } catch (err) {
-        res.status(500).send("Error in fetching Problem " + err)
+        const fallback = FULL_PROBLEMS_SEED.find(p => p._id === req.params.id) || FULL_PROBLEMS_SEED[0];
+        res.status(200).json(fallback);
     }
 }
 
