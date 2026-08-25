@@ -88,12 +88,12 @@ function Problems() {
     return (
         <div className={`min-h-screen ${darkMode ? "bg-slate-950 text-white" : "bg-[linear-gradient(180deg,_#f8fbff_0%,_#ffffff_34%,_#f7fafc_100%)] text-slate-900"}`}>
             <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
-            <main className="mx-auto max-w-7xl px-4 pt-24 pb-8 sm:px-6 lg:px-8">
-                <div className="mb-6">
+            <main className="mx-auto max-w-7xl px-4 pt-18 pb-6 sm:px-6 lg:px-8">
+                <div className="mb-4">
                     <p className={`text-xs font-bold uppercase tracking-[0.2em] ${darkMode ? "text-cyan-300" : "text-cyan-700"}`}>Problem Library</p>
-                    <h1 className="mt-3 text-3xl font-black sm:text-4xl">Find the next problem worth your time.</h1>
-                    <p className={`mt-2 text-sm ${darkMode ? "text-slate-400" : "text-slate-500"}`}>
-                        {isAuthenticated ? "Filter by difficulty, continue your progress, and jump into the editor fast." : "Browse the BattleGround problem library before logging in. Solving unlocks after sign in."}
+                    <h1 className="mt-1.5 text-2xl font-black sm:text-3xl">Find the next problem worth your time.</h1>
+                    <p className={`mt-1 text-xs sm:text-sm ${darkMode ? "text-slate-400" : "text-slate-500"}`}>
+                        {isAuthenticated ? "Filter by difficulty, continue your progress, and jump into the editor fast." : "Browse the BattleGround problem library before logging in."}
                     </p>
                 </div>
 

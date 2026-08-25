@@ -136,17 +136,30 @@ export const getPublicProblemById = async (req, res) => {
     }
 }
 
+const FALLBACK_PROBLEMS = [
+    { _id: "650000000000000000000001", title: "Two Sum", difficulty: "easy", tags: ["Array", "Hash Table"] },
+    { _id: "650000000000000000000002", title: "Reverse Linked List", difficulty: "easy", tags: ["Linked List"] },
+    { _id: "650000000000000000000003", title: "Valid Anagram", difficulty: "easy", tags: ["String", "Hash Table"] },
+    { _id: "650000000000000000000004", title: "Binary Search", difficulty: "easy", tags: ["Binary Search", "Array"] },
+    { _id: "650000000000000000000005", title: "3Sum", difficulty: "medium", tags: ["Array", "Two Pointers"] },
+    { _id: "650000000000000000000006", title: "Longest Substring Without Repeating Characters", difficulty: "medium", tags: ["Sliding Window", "String"] },
+    { _id: "650000000000000000000007", title: "Container With Most Water", difficulty: "medium", tags: ["Two Pointers", "Array"] },
+    { _id: "650000000000000000000008", title: "Coin Change", difficulty: "medium", tags: ["Dynamic Programming"] },
+    { _id: "650000000000000000000009", title: "Trapping Rain Water", difficulty: "hard", tags: ["Two Pointers", "Stack"] },
+    { _id: "650000000000000000000010", title: "LRU Cache", difficulty: "hard", tags: ["Linked List", "Hash Table"] }
+];
+
 export const getPublicProblems = async (_req, res) => {
     try {
         const problems = await withTimeout(
             Problem.find({}).select('_id title difficulty tags').lean(),
-            [],
+            FALLBACK_PROBLEMS,
             1200
         );
-        res.status(200).json(problems || []);
+        res.status(200).json((problems && problems.length > 0) ? problems : FALLBACK_PROBLEMS);
     } catch (err) {
         console.error("getPublicProblems DB error:", err?.message || err);
-        res.status(200).json([]);
+        res.status(200).json(FALLBACK_PROBLEMS);
     }
 }
 
@@ -191,22 +204,22 @@ export const getAllProblem = async (req, res) => {
                     .select('_id title difficulty tags problemCreator createdAt updatedAt')
                     .populate('problemCreator', 'firstName emailId')
                     .lean(),
-                [],
+                FALLBACK_PROBLEMS,
                 1200
             );
         } else {
             problems = await withTimeout(
                 Problem.find({}).select('_id title difficulty tags').lean(),
-                [],
+                FALLBACK_PROBLEMS,
                 1200
             );
         }
 
-        res.status(200).json(problems || []);
+        res.status(200).json((problems && problems.length > 0) ? problems : FALLBACK_PROBLEMS);
 
     } catch (err) {
         console.error("getAllProblem DB error:", err?.message || err);
-        res.status(200).json([]);
+        res.status(200).json(FALLBACK_PROBLEMS);
     }
 }
 

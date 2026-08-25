@@ -103,27 +103,23 @@ function Home() {
 
             <main className="overflow-hidden">
                 <InteractiveHeroBackdrop darkMode={darkMode} className="border-b border-transparent">
-                    <section className="mx-auto max-w-[1440px] px-4 pb-12 pt-24 sm:px-6 sm:pt-28 lg:px-8">
-                        <div className="grid gap-8 lg:grid-cols-[1.04fr_0.96fr]">
+                    <section className="mx-auto max-w-[1440px] px-4 pt-18 pb-6 sm:px-6 lg:px-8">
+                        <div className="grid gap-6 lg:grid-cols-[1.04fr_0.96fr] lg:items-center">
                             <div className="max-w-4xl">
                                 <p className={`text-xs font-bold uppercase tracking-[0.26em] ${darkMode ? "text-indigo-400" : "text-indigo-600"}`}>
                                     Welcome back, {welcomeName}
                                 </p>
-                                <BrandWordmark darkMode={darkMode} compact className="mt-4" />
-                                <h1 className="mt-5 text-3xl font-black leading-[0.92] tracking-tight sm:text-4xl lg:text-6xl xl:text-7xl">
-                                    Stay dangerous.
-                                    <br className="hidden sm:block" />
-                                    <span className="sm:hidden"> </span>Solve with rhythm.
-                                    <br className="hidden sm:block" />
-                                    <span className="sm:hidden"> </span>Stack one more win.
+                                <BrandWordmark darkMode={darkMode} compact className="mt-2" />
+                                <h1 className="mt-2 text-2xl font-black leading-[1.05] tracking-tight sm:text-3xl lg:text-4xl xl:text-5xl">
+                                    Stay dangerous. Solve with rhythm. Stack one more win.
                                 </h1>
-                                <p className={`mt-5 max-w-2xl text-sm leading-7 sm:text-base sm:leading-8 ${darkMode ? "text-slate-400" : "text-slate-600"}`}>
+                                <p className={`mt-2 max-w-2xl text-xs sm:text-sm leading-6 ${darkMode ? "text-slate-400" : "text-slate-600"}`}>
                                     Your dashboard is built to point at the next move fast: continue the current problem, hit the daily question, or jump straight into the arena.
                                 </p>
-                                <div className="mt-6 flex flex-wrap gap-3 sm:mt-8 sm:gap-4">
+                                <div className="mt-4 flex flex-wrap gap-3">
                                     <NavLink
                                         to={summary?.continueProblem ? `/problem/${summary.continueProblem.problemId}` : "/problems"}
-                                        className={`rounded-2xl px-5 py-3 text-sm font-black transition hover:scale-[1.02] sm:px-6 sm:py-3.5 ${
+                                        className={`rounded-xl px-4 py-2.5 text-xs sm:text-sm font-black transition hover:scale-[1.02] ${
                                             darkMode
                                                 ? "bg-indigo-500 text-white hover:bg-indigo-400"
                                                 : "bg-slate-900 text-white hover:bg-slate-800"
@@ -133,7 +129,7 @@ function Home() {
                                     </NavLink>
                                     <NavLink
                                         to="/problems"
-                                        className={`rounded-2xl border px-5 py-3 text-sm font-black transition sm:px-6 sm:py-3.5 ${
+                                        className={`rounded-xl border px-4 py-2.5 text-xs sm:text-sm font-black transition ${
                                             darkMode
                                                 ? "border-slate-700 text-slate-200 hover:border-indigo-400 hover:text-white"
                                                 : "border-slate-300 text-slate-700 hover:border-slate-900 hover:text-slate-900"
@@ -144,20 +140,20 @@ function Home() {
                                 </div>
                             </div>
 
-                            <div className="grid gap-3 grid-cols-2 sm:gap-4">
+                            <div className="grid gap-2.5 grid-cols-2 sm:gap-3">
                                 <StatPill label="Current streak" value={summary?.currentStreak ?? 0} darkMode={darkMode} accent="text-cyan-500" />
                                 <StatPill label="Longest streak" value={summary?.longestStreak ?? 0} darkMode={darkMode} accent="text-indigo-500" />
                                 <StatPill label="Solved total" value={summary?.solvedTotal ?? 0} darkMode={darkMode} accent="text-emerald-500" />
                                 <StatPill label="Arena rating" value={summary?.battleSnapshot?.rating ?? 1200} darkMode={darkMode} accent="text-fuchsia-500" />
-                                <div className={`col-span-2 rounded-2xl border p-4 sm:p-5 ${darkMode ? "border-white/10 bg-white/5" : "border-slate-200 bg-white shadow-sm"}`}>
+                                <div className={`col-span-2 rounded-2xl border p-3.5 sm:p-4 ${darkMode ? "border-white/10 bg-white/5" : "border-slate-200 bg-white shadow-sm"}`}>
                                     <div className="flex items-center justify-between gap-4">
                                         <div>
                                             <p className={`text-[10px] font-bold uppercase tracking-[0.18em] ${darkMode ? "text-slate-500" : "text-slate-400"}`}>Battle snapshot</p>
-                                            <h2 className={`mt-2 text-lg sm:text-xl font-black ${darkMode ? "text-white" : "text-slate-900"}`}>
+                                            <h2 className={`mt-1 text-base sm:text-lg font-black ${darkMode ? "text-white" : "text-slate-900"}`}>
                                                 Rank {summary?.battleSnapshot?.rank || user?.rank || "Rookie"}
                                             </h2>
                                         </div>
-                                        <div className={`rounded-2xl px-3 py-2 text-right sm:px-4 sm:py-3 ${darkMode ? "bg-slate-900/80" : "bg-slate-50"}`}>
+                                        <div className={`rounded-xl px-3 py-2 text-right ${darkMode ? "bg-slate-900/80" : "bg-slate-50"}`}>
                                             <p className={`text-[10px] font-bold uppercase tracking-[0.18em] ${darkMode ? "text-slate-500" : "text-slate-400"}`}>Win rate</p>
                                             <p className={`mt-1 text-xl sm:text-2xl font-black ${darkMode ? "text-white" : "text-slate-900"}`}>
                                                 {summary?.battleSnapshot?.winRate ?? 0}%

@@ -60,13 +60,13 @@ function Navbar({ darkMode, setDarkMode }) {
     };
 
     return (
-        <header className={`fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-xl transition-transform duration-300 ${visible ? "translate-y-0" : "-translate-y-full"} ${darkMode ? "border-slate-800 bg-slate-950/85" : "border-slate-200/80 bg-white/85"}`}>
-            <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:h-[74px] lg:px-8">
-                <NavLink to="/" className="flex items-center gap-3">
-                    <img src="/battleground_logo.png" alt="BattleGround Logo" className="h-10 w-10 rounded-2xl object-cover shadow-lg shadow-cyan-500/20" />
+        <header className={`fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-xl transition-transform duration-300 ${visible ? "translate-y-0" : "-translate-y-full"} ${darkMode ? "border-slate-800 bg-slate-950/90" : "border-slate-200/80 bg-white/90"}`}>
+            <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-3 sm:px-6 lg:h-[68px] lg:px-8">
+                <NavLink to="/" className="flex items-center gap-2.5 shrink-0">
+                    <img src="/battleground_logo.png" alt="BattleGround Logo" className="h-9 w-9 rounded-xl object-cover shadow-md shadow-cyan-500/20" />
                     <div>
                         <BrandWordmark darkMode={darkMode} compact />
-                        <p className={`hidden text-[10px] font-bold uppercase tracking-[0.18em] sm:block ${darkMode ? "text-slate-500" : "text-slate-400"}`}>
+                        <p className={`hidden text-[9px] font-bold uppercase tracking-[0.18em] sm:block ${darkMode ? "text-slate-500" : "text-slate-400"}`}>
                             DSA · AI · Arena
                         </p>
                     </div>
@@ -80,45 +80,55 @@ function Navbar({ darkMode, setDarkMode }) {
                     ))}
                 </nav>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 shrink-0">
                     <button
                         onClick={() => setDarkMode(!darkMode)}
-                        className={`rounded-xl p-2 transition ${darkMode ? "bg-slate-800 text-amber-300 hover:bg-slate-700" : "bg-slate-100 text-slate-600 hover:bg-slate-200"}`}
+                        className={`rounded-xl p-1.5 transition ${darkMode ? "bg-slate-800 text-amber-300 hover:bg-slate-700" : "bg-slate-100 text-slate-600 hover:bg-slate-200"}`}
+                        title="Toggle dark mode"
                     >
                         {darkMode ? (
-                            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m12.364 6.364l-.707-.707M7.343 7.343l-.707-.707m12.728 0l-.707.707M7.343 16.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                             </svg>
                         ) : (
-                            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                             </svg>
                         )}
                     </button>
 
                     <SignedOut>
-                        <div className="hidden items-center gap-2 sm:flex">
+                        <div className="flex items-center gap-2">
                             <NavLink
                                 to="/login"
-                                className="rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-5 py-2 text-sm font-bold text-white shadow-md transition hover:from-indigo-500 hover:to-purple-500 hover:shadow-indigo-500/25"
+                                className="rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-1.5 text-xs sm:text-sm font-bold text-white shadow-md transition hover:from-indigo-500 hover:to-purple-500"
                             >
                                 Log In
                             </NavLink>
                         </div>
                     </SignedOut>
                     <SignedIn>
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2">
                             <UserButton showName appearance={{
                                 elements: {
-                                    userButtonOuterIdentifier: darkMode ? "text-slate-200 font-bold text-sm" : "text-slate-800 font-bold text-sm"
+                                    userButtonOuterIdentifier: darkMode ? "text-slate-200 font-bold text-xs sm:text-sm max-w-[110px] truncate" : "text-slate-800 font-bold text-xs sm:text-sm max-w-[110px] truncate"
                                 }
                             }} />
                         </div>
                     </SignedIn>
 
+                    {/* Local auth fallback when not signed in through Clerk */}
+                    {isAuthenticated ? (
+                        <div className="hidden items-center gap-2 sm:flex">
+                            <span className={`text-xs font-bold truncate max-w-[110px] ${darkMode ? "text-slate-300" : "text-slate-700"}`}>
+                                {user?.firstName || "Saurabh"}
+                            </span>
+                        </div>
+                    ) : null}
+
                     <button
                         onClick={() => setMenuOpen((value) => !value)}
-                        className={`rounded-xl p-2 transition lg:hidden ${darkMode ? "bg-slate-800 text-slate-200" : "bg-slate-100 text-slate-700"}`}
+                        className={`rounded-xl p-1.5 transition lg:hidden ${darkMode ? "bg-slate-800 text-slate-200" : "bg-slate-100 text-slate-700"}`}
                     >
                         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
