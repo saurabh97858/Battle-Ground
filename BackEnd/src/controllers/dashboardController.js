@@ -1,6 +1,7 @@
 import Problem from "../models/problem.js";
 import SiteConfig from "../models/siteConfig.js";
 import { Submission } from "../models/submission.js";
+import { withTimeout } from "../utils/dbSafety.js";
 
 const getDateKey = (dateValue) => {
   const date = new Date(dateValue);
@@ -69,21 +70,25 @@ export const getDashboardSummary = async (req, res) => {
   try {
     const userId = req.result._id;
 
-    const [allProblems, acceptedSubmissions, latestAttempts, siteConfig] = await Promise.all([
-      Problem.find({}).select("_id title difficulty tags").lean(),
-      Submission.find({ userId, status: "Accepted" })
-        .sort({ createdAt: -1 })
-        .populate("problemId", "_id title difficulty tags")
-        .lean(),
-      Submission.find({ userId })
-        .sort({ createdAt: -1 })
-        .limit(20)
-        .populate("problemId", "_id title difficulty tags")
-        .lean(),
-      SiteConfig.findOne({ key: "default" })
-        .populate("dailyChallengeProblemId", "_id title difficulty tags")
-        .lean(),
-    ]);
+    const [allProblems, acceptedSubmissions, latestAttempts, siteConfig] = await withTimeout(
+      Promise.all([
+        Problem.find({}).select("_id title difficulty tags").lean(),
+        Submission.find({ userId, status: "Accepted" })
+          .sort({ createdAt: -1 })
+          .populate("problemId", "_id title difficulty tags")
+          .lean(),
+        Submission.find({ userId })
+          .sort({ createdAt: -1 })
+          .limit(20)
+          .populate("problemId", "_id title difficulty tags")
+          .lean(),
+        SiteConfig.findOne({ key: "default" })
+          .populate("dailyChallengeProblemId", "_id title difficulty tags")
+          .lean(),
+      ]),
+      [[], [], [], null],
+      1200
+    );
 
     const solvedSet = new Set((req.result.problemSolved || []).map((problemId) => problemId.toString()));
     const totalProblems = allProblems.length;

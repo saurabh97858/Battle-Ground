@@ -2,6 +2,7 @@ import { runJudge } from "../judge1/submission.js";
 import Problem from "../models/problem.js";
 import User from "../models/user.js";
 import { Submission } from "../models/submission.js";
+import { withTimeout } from "../utils/dbSafety.js";
 
 export const createProblem = async (req, res) => {
     try {
@@ -137,7 +138,11 @@ export const getPublicProblemById = async (req, res) => {
 
 export const getPublicProblems = async (_req, res) => {
     try {
-        const problems = await Problem.find({}).select('_id title difficulty tags').lean();
+        const problems = await withTimeout(
+            Problem.find({}).select('_id title difficulty tags').lean(),
+            [],
+            1200
+        );
         res.status(200).json(problems || []);
     } catch (err) {
         console.error("getPublicProblems DB error:", err?.message || err);
@@ -154,11 +159,17 @@ export const getProblemById = async (req, res) => {
 
         let problem;
         if (req.result?.role === 'admin') {
-            problem = await Problem.findById(id)
-                .populate('problemCreator', 'firstName emailId');
+            problem = await withTimeout(
+                Problem.findById(id).populate('problemCreator', 'firstName emailId'),
+                null,
+                1200
+            );
         } else {
-            problem = await Problem.findById(id)
-                .select('_id title description difficulty tags visibleTestCases startCode referenceSolution problemSignature');
+            problem = await withTimeout(
+                Problem.findById(id).select('_id title description difficulty tags visibleTestCases startCode referenceSolution problemSignature'),
+                null,
+                1200
+            );
         }
 
         if (!problem)
@@ -175,12 +186,20 @@ export const getAllProblem = async (req, res) => {
     try {
         let problems;
         if (req.result?.role === 'admin') {
-            problems = await Problem.find({})
-                .select('_id title difficulty tags problemCreator createdAt updatedAt')
-                .populate('problemCreator', 'firstName emailId')
-                .lean();
+            problems = await withTimeout(
+                Problem.find({})
+                    .select('_id title difficulty tags problemCreator createdAt updatedAt')
+                    .populate('problemCreator', 'firstName emailId')
+                    .lean(),
+                [],
+                1200
+            );
         } else {
-            problems = await Problem.find({}).select('_id title difficulty tags').lean();
+            problems = await withTimeout(
+                Problem.find({}).select('_id title difficulty tags').lean(),
+                [],
+                1200
+            );
         }
 
         res.status(200).json(problems || []);
