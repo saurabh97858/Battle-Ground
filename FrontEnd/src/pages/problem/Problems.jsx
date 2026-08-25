@@ -78,7 +78,7 @@ function Problems() {
         return (
             <div className={`min-h-screen ${darkMode ? "bg-slate-950 text-white" : "bg-slate-50 text-slate-900"}`}>
                 <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
-                <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-6xl px-4 pt-24 pb-10 sm:px-6 lg:px-8">
                     <ErrorState title="Problem library unavailable" description={error} onRetry={loadProblems} darkMode={darkMode} />
                 </div>
             </div>
@@ -88,7 +88,7 @@ function Problems() {
     return (
         <div className={`min-h-screen ${darkMode ? "bg-slate-950 text-white" : "bg-[linear-gradient(180deg,_#f8fbff_0%,_#ffffff_34%,_#f7fafc_100%)] text-slate-900"}`}>
             <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
-            <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+            <main className="mx-auto max-w-7xl px-4 pt-24 pb-8 sm:px-6 lg:px-8">
                 <div className="mb-6">
                     <p className={`text-xs font-bold uppercase tracking-[0.2em] ${darkMode ? "text-cyan-300" : "text-cyan-700"}`}>Problem Library</p>
                     <h1 className="mt-3 text-3xl font-black sm:text-4xl">Find the next problem worth your time.</h1>

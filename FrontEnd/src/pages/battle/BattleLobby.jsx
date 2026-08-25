@@ -415,7 +415,7 @@ const BattleLobby = () => {
     <div className={`min-h-screen flex flex-col ${darkMode ? 'bg-slate-950' : 'bg-slate-50'}`}>
       <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
 
-      <div className="flex-1 flex items-center justify-center p-4">
+      <div className="flex-1 flex items-center justify-center pt-24 pb-8 px-4">
         <div className={`w-full max-w-xl p-4 sm:p-10 rounded-2xl shadow-xl border ${darkMode ? 'bg-slate-900 border-slate-800 shadow-[0_10px_40px_-10px_rgba(79,70,229,0.15)]' : 'bg-white border-slate-200'}`}>
           <div className="text-center mb-8">
             <h1 className={`text-2xl sm:text-5xl font-black mb-2 tracking-tight ${darkMode ? 'text-white' : 'text-slate-900'}`}>DSA Arena</h1>

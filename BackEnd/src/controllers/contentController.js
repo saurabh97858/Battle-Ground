@@ -56,8 +56,12 @@ export const getPublicSiteContent = async (_req, res) => {
     res.status(200).json(serializeConfig(config));
   } catch (error) {
     console.error("Failed to load public site content:", error);
-    res.status(500).json({
-      message: "Failed to load site content",
+    res.status(200).json({
+      heroBadge: "Interview prep, reimagined",
+      heroHeadline: "Build interview momentum with BattleGround.",
+      heroSubheadline: "Practice problems, sharpen concepts, battle live, and level up with an interface that feels like a real product.",
+      homepageFeaturedModules: DEFAULT_FEATURED_MODULES,
+      dailyChallenge: null
     });
   }
 };

@@ -103,7 +103,7 @@ function Home() {
 
             <main className="overflow-hidden">
                 <InteractiveHeroBackdrop darkMode={darkMode} className="border-b border-transparent">
-                    <section className="mx-auto max-w-[1440px] px-4 pb-12 pt-8 sm:px-6 sm:pt-10 lg:px-8">
+                    <section className="mx-auto max-w-[1440px] px-4 pb-12 pt-24 sm:px-6 sm:pt-28 lg:px-8">
                         <div className="grid gap-8 lg:grid-cols-[1.04fr_0.96fr]">
                             <div className="max-w-4xl">
                                 <p className={`text-xs font-bold uppercase tracking-[0.26em] ${darkMode ? "text-indigo-400" : "text-indigo-600"}`}>

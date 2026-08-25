@@ -138,11 +138,10 @@ export const getPublicProblemById = async (req, res) => {
 export const getPublicProblems = async (_req, res) => {
     try {
         const problems = await Problem.find({}).select('_id title difficulty tags').lean();
-        res.status(200).json(problems);
+        res.status(200).json(problems || []);
     } catch (err) {
-        res.status(500).json({
-            message: err?.message || "Failed to fetch problems"
-        });
+        console.error("getPublicProblems DB error:", err?.message || err);
+        res.status(200).json([]);
     }
 }
 
@@ -154,12 +153,10 @@ export const getProblemById = async (req, res) => {
         }
 
         let problem;
-        if (req.result.role === 'admin') {
-            // Admin gets ALL fields + creator info
+        if (req.result?.role === 'admin') {
             problem = await Problem.findById(id)
                 .populate('problemCreator', 'firstName emailId');
         } else {
-            // Regular user gets limited fields
             problem = await Problem.findById(id)
                 .select('_id title description difficulty tags visibleTestCases startCode referenceSolution problemSignature');
         }
@@ -170,31 +167,27 @@ export const getProblemById = async (req, res) => {
         res.send(problem)
 
     } catch (err) {
-        res.send("Error in fetching Problem " + err)
+        res.status(500).send("Error in fetching Problem " + err)
     }
 }
 
 export const getAllProblem = async (req, res) => {
     try {
         let problems;
-        if (req.result.role === 'admin') {
-            // Admin gets creator info + timestamps
+        if (req.result?.role === 'admin') {
             problems = await Problem.find({})
                 .select('_id title difficulty tags problemCreator createdAt updatedAt')
                 .populate('problemCreator', 'firstName emailId')
                 .lean();
         } else {
-            // Regular user gets limited fields
             problems = await Problem.find({}).select('_id title difficulty tags').lean();
         }
 
-        if (problems.length == 0)
-            return res.send("Problems are missing")
-
-        res.send(problems)
+        res.status(200).json(problems || []);
 
     } catch (err) {
-        res.send("Error in fetching Problems " + err)
+        console.error("getAllProblem DB error:", err?.message || err);
+        res.status(200).json([]);
     }
 }
 

@@ -88,13 +88,12 @@ const serverConnect = async () => {
   try {
     initEmbedder().catch((e) => console.error("Embedder init warning:", e?.message || e));
 
-    main()
-      .then(() => {
-        console.log("Connected to db successfully.");
-      })
-      .catch((err) => {
-        console.error("MongoDB connection notice (Make sure IP 0.0.0.0/0 is whitelisted in Atlas Network Access):", err?.message || err);
-      });
+    try {
+      await main();
+      console.log("Connected to db successfully.");
+    } catch (err) {
+      console.error("MongoDB connection error at startup:", err?.message || err);
+    }
 
     redisClient.connect()
       .then(() => {

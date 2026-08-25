@@ -184,7 +184,7 @@ export default function RevisionMentorPage() {
     const handleClearChat = () => { setMessages([]); setError(null); };
 
     return (
-        <div className={`h-screen flex flex-col transition-colors duration-300 ${darkMode ? 'bg-slate-950' : 'bg-white'}`}>
+        <div className={`h-screen flex flex-col pt-[74px] transition-colors duration-300 ${darkMode ? 'bg-slate-950' : 'bg-white'}`}>
             <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
 
             {/* Mobile View Toggle */}
