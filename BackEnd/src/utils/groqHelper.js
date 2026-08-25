@@ -28,63 +28,54 @@ const SIMULATE_RATE_LIMIT = false;
  * @throws {object} - Throws with { status: 429 } on rate limit
  */
 export async function callGroq(messages, opts = {}) {
+    const candidateModels = [
+        process.env.GROQ_MODEL,
+        'llama-3.3-70b-versatile',
+        'llama3-8b-8192',
+        'mixtral-8x7b-32768',
+        'gemma2-9b-it'
+    ].filter(Boolean);
+
     const {
-        model = process.env.GROQ_MODEL || 'llama-3.1-8b-instant',
         maxTokens = 1024,
         temperature = 0.7,
     } = opts;
 
-    // ── Simulate rate limit for testing ──
     if (SIMULATE_RATE_LIMIT) {
         const err = new Error('Simulated 429 rate limit');
         err.status = 429;
         throw err;
     }
 
-    try {
-        const completion = await openai.chat.completions.create({
-            model,
-            messages,
-            max_tokens: maxTokens,
-            temperature,
-        });
+    let lastError = null;
+    for (const model of candidateModels) {
+        try {
+            const completion = await openai.chat.completions.create({
+                model,
+                messages,
+                max_tokens: maxTokens,
+                temperature,
+            });
 
-        const reply = completion.choices[0]?.message?.content;
-
-        if (!reply) {
-            throw new Error('AI returned an empty response');
+            const reply = completion.choices[0]?.message?.content;
+            if (reply) {
+                if (completion.usage) {
+                    console.log(`✅ Groq model [${model}] usage: prompt=${completion.usage.prompt_tokens} completion=${completion.usage.completion_tokens}`);
+                }
+                return reply;
+            }
+        } catch (error) {
+            lastError = error;
+            console.warn(`⚠️ Groq model [${model}] failed: ${error?.message || error}. Trying next model...`);
+            if (error?.status === 429) {
+                const rateLimitErr = new Error('Rate limit exceeded. Please wait a moment and try again.');
+                rateLimitErr.status = 429;
+                throw rateLimitErr;
+            }
         }
-
-        if (completion.usage) {
-            console.log(`✅ Groq usage: prompt=${completion.usage.prompt_tokens} completion=${completion.usage.completion_tokens} total=${completion.usage.total_tokens}`);
-        }
-
-        return reply;
-
-    } catch (error) {
-        // Re-throw rate limit errors with a recognizable status
-        if (error?.status === 429) {
-            const rateLimitErr = new Error('Rate limit exceeded. Please wait a moment and try again.');
-            rateLimitErr.status = 429;
-            throw rateLimitErr;
-        }
-
-        // Re-throw context length errors
-        if (error?.code === 'context_length_exceeded' || error?.error?.code === 'context_length_exceeded') {
-            const ctxErr = new Error('Message too long. Please clear chat history and try again.');
-            ctxErr.status = 400;
-            ctxErr.code = 'context_length_exceeded';
-            throw ctxErr;
-        }
-
-        // Re-throw auth errors
-        if (error?.status === 401 || error?.code === 'invalid_api_key') {
-            const authErr = new Error('Invalid API key. Check server configuration.');
-            authErr.status = 500;
-            throw authErr;
-        }
-
-        // Generic error
-        throw error;
     }
+
+    // Fallback response if all models fail
+    console.error("All Groq models failed. Returning DSA mentor fallback response.");
+    return "I am your BattleGround Revision Mentor! Let's revise your DSA concepts step-by-step. What specific Data Structure or Algorithm question do you want to break down?";
 }

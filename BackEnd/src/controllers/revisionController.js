@@ -146,7 +146,12 @@ export const revisionChat = async (req, res) => {
         }
 
         // ── Step 1: Embed the user's query ──
-        const queryVector = await getEmbedding(query);
+        let queryVector = [];
+        try {
+            queryVector = await getEmbedding(query);
+        } catch (embedErr) {
+            console.warn('⚠️ getEmbedding failed in revisionChat:', embedErr?.message || embedErr);
+        }
 
         // ── Step 2: Vector search for relevant past notes ──
         let relevantNotes = [];
