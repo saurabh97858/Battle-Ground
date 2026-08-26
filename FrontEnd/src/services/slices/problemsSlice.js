@@ -53,7 +53,7 @@ const problemsSlice = createSlice({
 export const { setSearchQuery, setPage } = problemsSlice.actions;
 
 // Selectors
-export const selectProblemIndex = (state) => state.problems.problemIndex;
+export const selectProblemIndex = (state) => state.problems?.problemIndex || [];
 export const selectSearchQuery = (state) => state.problems.searchQuery;
 export const selectCurrentPage = (state) => state.problems.currentPage;
 export const selectItemsPerPage = (state) => state.problems.itemsPerPage;

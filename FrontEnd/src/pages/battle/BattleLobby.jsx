@@ -375,15 +375,19 @@ const BattleLobby = () => {
                   Participants ({participants.length}/{matchData.settings.maxPlayers})
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                  {participants.map((participant) => (
-                    <div key={participant.userId._id} className={`flex items-center gap-3 p-3 rounded-xl border ${darkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-100 border-slate-200'}`}>
-                      <img src={participant.userId.profilePicture || 'https://via.placeholder.com/40'} alt="avatar" className="w-10 h-10 flex-shrink-0 rounded-full border-2 border-indigo-400" />
-                      <div className="min-w-0">
-                        <p className="font-bold text-sm truncate">{participant.userId.firstName}</p>
-                        <p className="text-xs font-semibold text-indigo-500 truncate">{participant.userId.rank} • {participant.userId.rating}</p>
+                  {participants.map((participant, idx) => {
+                    const pUser = typeof participant.userId === 'object' && participant.userId !== null ? participant.userId : {};
+                    const pKey = pUser._id || participant.userId || idx;
+                    return (
+                      <div key={pKey} className={`flex items-center gap-3 p-3 rounded-xl border ${darkMode ? 'bg-slate-800 border-slate-700' : 'bg-slate-100 border-slate-200'}`}>
+                        <img src={pUser.profilePicture || 'https://via.placeholder.com/40'} alt="avatar" className="w-10 h-10 flex-shrink-0 rounded-full border-2 border-indigo-400" />
+                        <div className="min-w-0">
+                          <p className="font-bold text-sm truncate">{pUser.firstName || 'Player'}</p>
+                          <p className="text-xs font-semibold text-indigo-500 truncate">{pUser.rank || 'Bronze'} • {pUser.rating || 1200}</p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
 

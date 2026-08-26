@@ -24,7 +24,7 @@ function getGeminiClient() {
 export function getLiveModel() {
   return (
     process.env.GEMINI_LIVE_MODEL ||
-    "gemini-live-2.5-flash-native-audio"
+    "gemini-2.0-flash-exp"
   );
 }
 
@@ -42,6 +42,7 @@ export async function createInterviewLiveToken(config) {
   const systemInstruction = buildLiveSystemInstruction(config);
 
   const token = await client.authTokens.create({
+    model: liveModel,
     config: {
       uses: 1,
       expireTime,
