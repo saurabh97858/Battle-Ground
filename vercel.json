@@ -16,35 +16,35 @@
   ],
   "routes": [
     {
-      "src": "/auth/(.*)",
+      "src": "/auth(.*)",
       "dest": "BackEnd/src/server.js"
     },
     {
-      "src": "/api/(.*)",
+      "src": "/api(.*)",
       "dest": "BackEnd/src/server.js"
     },
     {
-      "src": "/problem/(.*)",
+      "src": "/problem(.*)",
       "dest": "BackEnd/src/server.js"
     },
     {
-      "src": "/submission/(.*)",
+      "src": "/submission(.*)",
       "dest": "BackEnd/src/server.js"
     },
     {
-      "src": "/ai/(.*)",
+      "src": "/ai(.*)",
       "dest": "BackEnd/src/server.js"
     },
     {
-      "src": "/video/(.*)",
+      "src": "/video(.*)",
       "dest": "BackEnd/src/server.js"
     },
     {
-      "src": "/server-api/(.*)",
+      "src": "/server-api(.*)",
       "dest": "BackEnd/src/server.js"
     },
     {
-      "src": "/ping",
+      "src": "/ping(.*)",
       "dest": "BackEnd/src/server.js"
     },
     {
